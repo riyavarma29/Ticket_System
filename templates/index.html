@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Support CRM</title>
+    <title>Support Ticket CRM</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 min-h-screen p-10">
+<body class="bg-gray-100 min-h-screen p-6 md:p-10">
 
-<div class="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+<div class="max-w-7xl mx-auto">
 
     <!-- Header -->
-    <div class="flex justify-between items-center mb-8">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
 
         <div>
             <h1 class="text-4xl font-bold text-gray-800">
-                Support Tickets
+                Support Ticket CRM
             </h1>
 
             <p class="text-gray-500 mt-1">
@@ -23,146 +23,284 @@
         </div>
 
         <a href="/create"
-           class="bg-blue-600 hover:bg-blue-700 transition text-white px-5 py-3 rounded-lg font-semibold shadow">
+           class="mt-4 md:mt-0 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-lg font-semibold">
             + Create Ticket
         </a>
 
     </div>
 
-    <!-- Search & Filter -->
-    <form method="get"
-          class="flex flex-col md:flex-row gap-4 mb-8">
 
-        <input type="text"
-               name="search"
-               placeholder="Search by name, email or subject..."
-               class="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400">
+    <!-- Dashboard -->
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
 
-        <select name="status"
-                class="border border-gray-300 p-3 rounded-lg w-full md:w-60 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        <div class="bg-white rounded-xl shadow p-5">
+            <p class="text-gray-500">Total Tickets</p>
+            <p class="text-3xl font-bold">{{ stats.total }}</p>
+        </div>
 
-            <option value="">All Status</option>
-            <option value="Open">Open</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Closed">Closed</option>
+        <div class="bg-white rounded-xl shadow p-5">
+            <p class="text-gray-500">Open</p>
+            <p class="text-3xl font-bold text-red-600">
+                {{ stats.open }}
+            </p>
+        </div>
 
-        </select>
+        <div class="bg-white rounded-xl shadow p-5">
+            <p class="text-gray-500">In Progress</p>
+            <p class="text-3xl font-bold text-yellow-600">
+                {{ stats.in_progress }}
+            </p>
+        </div>
 
-        <button class="bg-black hover:bg-gray-800 transition text-white px-6 py-3 rounded-lg font-semibold">
-            Filter
-        </button>
+        <div class="bg-white rounded-xl shadow p-5">
+            <p class="text-gray-500">Closed</p>
+            <p class="text-3xl font-bold text-green-600">
+                {{ stats.closed }}
+            </p>
+        </div>
 
-    </form>
+        <div class="bg-white rounded-xl shadow p-5">
+            <p class="text-gray-500">Critical</p>
+            <p class="text-3xl font-bold text-purple-600">
+                {{ stats.critical }}
+            </p>
+        </div>
 
-    <!-- Table -->
-    <div class="overflow-x-auto">
+    </div>
 
-        <table class="w-full border-collapse overflow-hidden rounded-xl">
 
-            <!-- Table Head -->
-            <thead>
+    <!-- Filters -->
+    <div class="bg-white rounded-2xl shadow p-6 mb-8">
 
-                <tr class="bg-gray-800 text-white text-left">
+        <form method="get"
+              class="grid grid-cols-1 md:grid-cols-5 gap-4">
 
-                    <th class="p-4">Ticket ID</th>
-                    <th class="p-4">Customer</th>
-                    <th class="p-4">Subject</th>
-                    <th class="p-4">Status</th>
-                    <th class="p-4">Created Date</th>
-                    <th class="p-4 text-center">Actions</th>
+            <input
+                type="text"
+                name="search"
+                value="{{ search }}"
+                placeholder="Search tickets..."
+                class="border p-3 rounded-lg"
+            >
 
-                </tr>
+            <select name="status"
+                    class="border p-3 rounded-lg">
 
-            </thead>
+                <option value="">All Status</option>
+                <option value="Open"
+                    {% if selected_status == "Open" %}selected{% endif %}>
+                    Open
+                </option>
 
-            <!-- Table Body -->
-            <tbody class="bg-white">
+                <option value="In Progress"
+                    {% if selected_status == "In Progress" %}selected{% endif %}>
+                    In Progress
+                </option>
+
+                <option value="Closed"
+                    {% if selected_status == "Closed" %}selected{% endif %}>
+                    Closed
+                </option>
+
+            </select>
+
+            <select name="priority"
+                    class="border p-3 rounded-lg">
+
+                <option value="">All Priorities</option>
+
+                <option value="Low"
+                    {% if selected_priority == "Low" %}selected{% endif %}>
+                    Low
+                </option>
+
+                <option value="Medium"
+                    {% if selected_priority == "Medium" %}selected{% endif %}>
+                    Medium
+                </option>
+
+                <option value="High"
+                    {% if selected_priority == "High" %}selected{% endif %}>
+                    High
+                </option>
+
+                <option value="Critical"
+                    {% if selected_priority == "Critical" %}selected{% endif %}>
+                    Critical
+                </option>
+
+            </select>
+
+            <select name="category"
+                    class="border p-3 rounded-lg">
+
+                <option value="">All Categories</option>
+
+                <option value="Technical"
+                    {% if selected_category == "Technical" %}selected{% endif %}>
+                    Technical
+                </option>
+
+                <option value="Billing"
+                    {% if selected_category == "Billing" %}selected{% endif %}>
+                    Billing
+                </option>
+
+                <option value="Account"
+                    {% if selected_category == "Account" %}selected{% endif %}>
+                    Account
+                </option>
+
+                <option value="Product"
+                    {% if selected_category == "Product" %}selected{% endif %}>
+                    Product
+                </option>
+
+                <option value="Other"
+                    {% if selected_category == "Other" %}selected{% endif %}>
+                    Other
+                </option>
+
+            </select>
+
+            <button
+                class="bg-gray-800 hover:bg-black text-white rounded-lg font-semibold"
+            >
+                Apply Filters
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- Tickets -->
+    <div class="bg-white rounded-2xl shadow overflow-hidden">
+
+        <div class="overflow-x-auto">
+
+            <table class="w-full">
+
+                <thead class="bg-gray-800 text-white">
+
+                    <tr>
+                        <th class="p-4 text-left">Ticket</th>
+                        <th class="p-4 text-left">Customer</th>
+                        <th class="p-4 text-left">Subject</th>
+                        <th class="p-4 text-left">Category</th>
+                        <th class="p-4 text-left">Priority</th>
+                        <th class="p-4 text-left">Status</th>
+                        <th class="p-4 text-center">Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
 
                 {% for ticket in tickets %}
 
-                <tr class="border-b hover:bg-gray-50 transition">
+                    <tr class="border-b hover:bg-gray-50">
 
-                    <!-- Ticket ID -->
-                    <td class="p-4 font-semibold text-gray-700">
-                        {{ ticket.ticket_id }}
-                    </td>
+                        <td class="p-4 font-semibold">
+                            {{ ticket.ticket_id }}
+                        </td>
 
-                    <!-- Customer -->
-                    <td class="p-4">
-                        <div class="font-medium text-gray-800">
-                            {{ ticket.customer_name }}
-                        </div>
+                        <td class="p-4">
+                            <div class="font-medium">
+                                {{ ticket.customer_name }}
+                            </div>
 
-                        <div class="text-sm text-gray-500">
-                            {{ ticket.customer_email }}
-                        </div>
-                    </td>
+                            <div class="text-sm text-gray-500">
+                                {{ ticket.customer_email }}
+                            </div>
+                        </td>
 
-                    <!-- Subject -->
-                    <td class="p-4 text-gray-700">
-                        {{ ticket.subject }}
-                    </td>
+                        <td class="p-4">
+                            {{ ticket.subject }}
+                        </td>
 
-                    <!-- Status -->
-                    <td class="p-4">
+                        <td class="p-4">
+                            {{ ticket.category }}
+                        </td>
 
-                        {% if ticket.status == "Open" %}
+                        <td class="p-4">
 
-                            <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-semibold">
-                                Open
-                            </span>
+                            {% if ticket.priority == "Critical" %}
+                                <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                    Critical
+                                </span>
 
-                        {% elif ticket.status == "In Progress" %}
+                            {% elif ticket.priority == "High" %}
+                                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                    High
+                                </span>
 
-                            <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-semibold">
-                                In Progress
-                            </span>
+                            {% elif ticket.priority == "Medium" %}
+                                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                    Medium
+                                </span>
 
-                        {% else %}
+                            {% else %}
+                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                    Low
+                                </span>
+                            {% endif %}
 
-                            <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-semibold">
-                                Closed
-                            </span>
+                        </td>
 
-                        {% endif %}
+                        <td class="p-4">
 
-                    </td>
+                            {% if ticket.status == "Open" %}
 
-                    <!-- Date -->
-                    <td class="p-4 text-gray-600">
+                                <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-semibold">
+                                    Open
+                                </span>
 
-                        {% if ticket.created_at %}
-                            {{ ticket.created_at.strftime("%d-%m-%Y %I:%M %p") }}
-                        {% else %}
-                            N/A
-                        {% endif %}
+                            {% elif ticket.status == "In Progress" %}
 
-                    </td>
+                                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                    In Progress
+                                </span>
 
-                    <!-- Actions -->
-                    <td class="p-4">
+                            {% else %}
 
-                        <div class="flex justify-center gap-3">
+                                <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-semibold">
+                                    Closed
+                                </span>
 
-                            <!-- View Button -->
-                            <a href="/ticket/{{ ticket.ticket_id }}"
-                               class="bg-blue-500 hover:bg-blue-600 transition text-white px-4 py-2 rounded-lg text-sm font-medium shadow">
+                            {% endif %}
+
+                        </td>
+
+                        <td class="p-4 text-center">
+
+                            <a
+                                href="/ticket/{{ ticket.ticket_id }}"
+                                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+                            >
                                 View
                             </a>
 
-                            
+                        </td>
 
-                        </div>
+                    </tr>
 
-                    </td>
+                {% else %}
 
-                </tr>
+                    <tr>
+                        <td colspan="7"
+                            class="p-10 text-center text-gray-500">
+                            No tickets found.
+                        </td>
+                    </tr>
 
                 {% endfor %}
 
-            </tbody>
+                </tbody>
 
-        </table>
+            </table>
+
+        </div>
 
     </div>
 

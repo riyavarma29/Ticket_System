@@ -1,44 +1,153 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Create Ticket</title>
+    <title>Create Ticket - Support CRM</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 p-10">
 
-<div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
+<body class="bg-gray-100 min-h-screen py-10 px-4">
 
-<h1 class="text-2xl font-bold mb-4">Create Ticket</h1>
+<div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-8">
 
-<form method="post">
+    <div class="flex justify-between items-center mb-8">
 
-<input type="text"
-       name="customer_name"
-       placeholder="Customer Name"
-       class="border p-2 w-full mb-4">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800">
+                Create Support Ticket
+            </h1>
 
-<input type="email"
-       name="customer_email"
-       placeholder="Customer Email"
-       class="border p-2 w-full mb-4">
+            <p class="text-gray-500 mt-1">
+                Submit a new customer support request
+            </p>
+        </div>
 
-<input type="text"
-       name="subject"
-       placeholder="Subject"
-       class="border p-2 w-full mb-4">
+        <a href="/"
+           class="bg-gray-700 text-white px-4 py-2 rounded-lg">
+            Back
+        </a>
 
-<textarea name="description"
-          placeholder="Description"
-          class="border p-2 w-full mb-4"></textarea>
+    </div>
 
-<button class="bg-blue-500 text-white px-4 py-2 rounded">
-    Submit
-</button>
-<a href="/"
-   class="bg-gray-500 text-white px-4 py-2 rounded inline-block mb-4">
-   ← Back to Home
-</a>
-</form>
+    <form method="post" class="space-y-5">
+
+        <div>
+            <label class="block font-semibold mb-2">
+                Customer Name
+            </label>
+
+            <input
+                type="text"
+                name="customer_name"
+                required
+                class="border p-3 rounded-lg w-full"
+                placeholder="Enter customer name"
+            >
+        </div>
+
+        <div>
+            <label class="block font-semibold mb-2">
+                Customer Email
+            </label>
+
+            <input
+                type="email"
+                name="customer_email"
+                required
+                class="border p-3 rounded-lg w-full"
+                placeholder="customer@example.com"
+            >
+        </div>
+
+        <div>
+            <label class="block font-semibold mb-2">
+                Subject
+            </label>
+
+            <input
+                type="text"
+                name="subject"
+                required
+                class="border p-3 rounded-lg w-full"
+                placeholder="Enter ticket subject"
+            >
+        </div>
+
+        <div>
+            <label class="block font-semibold mb-2">
+                Description
+            </label>
+
+            <textarea
+                name="description"
+                required
+                rows="5"
+                class="border p-3 rounded-lg w-full"
+                placeholder="Describe the issue..."
+            ></textarea>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+
+            <div>
+                <label class="block font-semibold mb-2">
+                    Category
+                </label>
+
+                <select
+                    name="category"
+                    class="border p-3 rounded-lg w-full"
+                >
+                    <option>Technical</option>
+                    <option>Billing</option>
+                    <option>Account</option>
+                    <option>Product</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block font-semibold mb-2">
+                    Priority
+                </label>
+
+                <select
+                    name="priority"
+                    class="border p-3 rounded-lg w-full"
+                >
+                    <option>Low</option>
+                    <option selected>Medium</option>
+                    <option>High</option>
+                    <option>Critical</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div>
+            <label class="block font-semibold mb-2">
+                Assigned Staff
+            </label>
+
+            <select
+                name="assigned_to"
+                class="border p-3 rounded-lg w-full"
+            >
+                <option>Unassigned</option>
+                <option>Support Team</option>
+                <option>Technical Team</option>
+                <option>Billing Team</option>
+                <option>Admin</option>
+            </select>
+        </div>
+
+        <button
+            type="submit"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold w-full"
+        >
+            Create Ticket
+        </button>
+
+    </form>
 
 </div>
 

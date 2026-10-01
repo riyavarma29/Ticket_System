@@ -1,156 +1,298 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ticket Detail</title>
+    <title>Ticket {{ ticket.ticket_id }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-gray-100 min-h-screen py-10 px-4">
 
-<div class="max-w-5xl mx-auto bg-white shadow-xl rounded-2xl p-8">
+<div class="max-w-5xl mx-auto">
 
-    <!-- Top Header -->
-    <div class="flex justify-between items-center mb-8">
+    <div class="bg-white shadow-xl rounded-2xl p-8">
 
-        <h1 class="text-3xl font-bold text-gray-800">
-            Ticket Details
-        </h1>
+        <div class="flex justify-between items-center mb-8">
 
-        <a href="/"
-           class="bg-gray-700 hover:bg-gray-800 text-white px-5 py-2 rounded-lg transition">
-            Back
-        </a>
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">
+                    Ticket Details
+                </h1>
 
-    </div>
+                <p class="text-gray-500">
+                    {{ ticket.ticket_id }}
+                </p>
+            </div>
 
-    <!-- Ticket Details Section -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
+            <a href="/"
+               class="bg-gray-700 text-white px-5 py-2 rounded-lg">
+                Back
+            </a>
 
-        <div class="bg-gray-50 border rounded-lg p-4">
-            <p class="text-gray-500 text-sm">Ticket ID</p>
-            <p class="font-semibold text-lg text-gray-800">
-                {{ticket.ticket_id}}
-            </p>
         </div>
 
-        <div class="bg-gray-50 border rounded-lg p-4">
-            <p class="text-gray-500 text-sm">Customer Name</p>
-            <p class="font-semibold text-lg text-gray-800">
-                {{ticket.customer_name}}
-            </p>
-        </div>
 
-        <div class="bg-gray-50 border rounded-lg p-4">
-            <p class="text-gray-500 text-sm">Customer Email</p>
-            <p class="font-semibold text-lg text-gray-800">
-                {{ticket.customer_email}}
-            </p>
-        </div>
+        <!-- Ticket Information -->
 
-        <div class="bg-gray-50 border rounded-lg p-4">
-            <p class="text-gray-500 text-sm">Subject</p>
-            <p class="font-semibold text-lg text-gray-800">
-                {{ticket.subject}}
-            </p>
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
 
-        <div class="bg-gray-50 border rounded-lg p-4 md:col-span-2">
-            <p class="text-gray-500 text-sm">Description</p>
-            <p class="font-semibold text-gray-800">
-                {{ticket.description}}
-            </p>
-        </div>
+            <div class="bg-gray-50 border rounded-lg p-4">
+                <p class="text-gray-500 text-sm">
+                    Customer
+                </p>
 
-        <div class="bg-gray-50 border rounded-lg p-4">
-            <p class="text-gray-500 text-sm">Status</p>
+                <p class="font-semibold text-lg">
+                    {{ ticket.customer_name }}
+                </p>
+            </div>
 
-            {% if ticket.status == "Open" %}
-                <span class="text-red-500 font-bold">
-                    {{ticket.status}}
-                </span>
+            <div class="bg-gray-50 border rounded-lg p-4">
+                <p class="text-gray-500 text-sm">
+                    Email
+                </p>
 
-            {% elif ticket.status == "In Progress" %}
-                <span class="text-yellow-500 font-bold">
-                    {{ticket.status}}
-                </span>
+                <p class="font-semibold">
+                    {{ ticket.customer_email }}
+                </p>
+            </div>
 
-            {% else %}
-                <span class="text-green-600 font-bold">
-                    {{ticket.status}}
-                </span>
-            {% endif %}
-        </div>
+            <div class="bg-gray-50 border rounded-lg p-4">
+                <p class="text-gray-500 text-sm">
+                    Subject
+                </p>
 
-        <div class="bg-gray-50 border rounded-lg p-4">
-            <p class="text-gray-500 text-sm">Created Date</p>
-            <p class="font-semibold text-gray-800">
-                {{ticket.created_at.strftime('%d-%m-%Y %I:%M %p')}}
-            </p>
-        </div>
+                <p class="font-semibold">
+                    {{ ticket.subject }}
+                </p>
+            </div>
 
-    </div>
+            <div class="bg-gray-50 border rounded-lg p-4">
+                <p class="text-gray-500 text-sm">
+                    Category
+                </p>
 
-    <!-- Update Ticket Section -->
-    <div class="border-t pt-8">
+                <p class="font-semibold">
+                    {{ ticket.category }}
+                </p>
+            </div>
 
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">
-            Update Ticket
-        </h2>
+            <div class="bg-gray-50 border rounded-lg p-4">
+                <p class="text-gray-500 text-sm">
+                    Priority
+                </p>
 
-        <form method="post">
+                <p class="font-semibold">
+                    {{ ticket.priority }}
+                </p>
+            </div>
 
-            <!-- Status -->
-            <div class="mb-6">
+            <div class="bg-gray-50 border rounded-lg p-4">
+                <p class="text-gray-500 text-sm">
+                    Assigned To
+                </p>
 
-                <label class="block font-semibold mb-2 text-gray-700">
-                    Update Status
-                </label>
+                <p class="font-semibold">
+                    {{ ticket.assigned_to }}
+                </p>
+            </div>
 
-                <select name="status"
-                        class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <div class="bg-gray-50 border rounded-lg p-4 md:col-span-2">
 
-                    <option value="Open"
-                        {% if ticket.status == "Open" %}selected{% endif %}>
-                        Open
-                    </option>
+                <p class="text-gray-500 text-sm mb-2">
+                    Description
+                </p>
 
-                    <option value="In Progress"
-                        {% if ticket.status == "In Progress" %}selected{% endif %}>
-                        In Progress
-                    </option>
-
-                    <option value="Closed"
-                        {% if ticket.status == "Closed" %}selected{% endif %}>
-                        Closed
-                    </option>
-
-                </select>
+                <p class="text-gray-800">
+                    {{ ticket.description }}
+                </p>
 
             </div>
 
-            <!-- Notes -->
-            <div class="mb-6">
+            <div class="bg-gray-50 border rounded-lg p-4">
 
-                <label class="block font-semibold mb-2 text-gray-700">
-                    Notes / Comments
-                </label>
+                <p class="text-gray-500 text-sm">
+                    Created
+                </p>
 
-                <textarea name="notes"
-                          rows="5"
-                          placeholder="Enter notes here..."
-                          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400">{{ticket.notes}}</textarea>
+                <p class="font-semibold">
+                    {{ ticket.created_at.strftime('%d-%m-%Y %I:%M %p') }}
+                </p>
 
             </div>
 
-            <!-- Button -->
-            <button type="submit"
-                    class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition">
+            <div class="bg-gray-50 border rounded-lg p-4">
 
+                <p class="text-gray-500 text-sm">
+                    Last Updated
+                </p>
+
+                <p class="font-semibold">
+
+                    {% if ticket.updated_at %}
+                        {{ ticket.updated_at.strftime('%d-%m-%Y %I:%M %p') }}
+                    {% else %}
+                        Not updated
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Update -->
+
+        <div class="border-t pt-8">
+
+            <h2 class="text-2xl font-bold mb-6">
                 Update Ticket
+            </h2>
 
-            </button>
+            <form method="post" class="space-y-6">
 
-        </form>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                    <div>
+
+                        <label class="block font-semibold mb-2">
+                            Status
+                        </label>
+
+                        <select
+                            name="status"
+                            class="border p-3 rounded-lg w-full"
+                        >
+
+                            <option value="Open"
+                                {% if ticket.status == "Open" %}selected{% endif %}>
+                                Open
+                            </option>
+
+                            <option value="In Progress"
+                                {% if ticket.status == "In Progress" %}selected{% endif %}>
+                                In Progress
+                            </option>
+
+                            <option value="Closed"
+                                {% if ticket.status == "Closed" %}selected{% endif %}>
+                                Closed
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block font-semibold mb-2">
+                            Priority
+                        </label>
+
+                        <select
+                            name="priority"
+                            class="border p-3 rounded-lg w-full"
+                        >
+
+                            <option value="Low"
+                                {% if ticket.priority == "Low" %}selected{% endif %}>
+                                Low
+                            </option>
+
+                            <option value="Medium"
+                                {% if ticket.priority == "Medium" %}selected{% endif %}>
+                                Medium
+                            </option>
+
+                            <option value="High"
+                                {% if ticket.priority == "High" %}selected{% endif %}>
+                                High
+                            </option>
+
+                            <option value="Critical"
+                                {% if ticket.priority == "Critical" %}selected{% endif %}>
+                                Critical
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block font-semibold mb-2">
+                            Assigned To
+                        </label>
+
+                        <select
+                            name="assigned_to"
+                            class="border p-3 rounded-lg w-full"
+                        >
+
+                            <option
+                                {% if ticket.assigned_to == "Unassigned" %}selected{% endif %}
+                            >
+                                Unassigned
+                            </option>
+
+                            <option
+                                {% if ticket.assigned_to == "Support Team" %}selected{% endif %}
+                            >
+                                Support Team
+                            </option>
+
+                            <option
+                                {% if ticket.assigned_to == "Technical Team" %}selected{% endif %}
+                            >
+                                Technical Team
+                            </option>
+
+                            <option
+                                {% if ticket.assigned_to == "Billing Team" %}selected{% endif %}
+                            >
+                                Billing Team
+                            </option>
+
+                            <option
+                                {% if ticket.assigned_to == "Admin" %}selected{% endif %}
+                            >
+                                Admin
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <label class="block font-semibold mb-2">
+                        Notes / Resolution
+                    </label>
+
+                    <textarea
+                        name="notes"
+                        rows="5"
+                        class="border p-3 rounded-lg w-full"
+                        placeholder="Add support notes or resolution..."
+                    >{{ ticket.notes }}</textarea>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold"
+                >
+                    Save Changes
+                </button>
+
+            </form>
+
+        </div>
 
     </div>
 
